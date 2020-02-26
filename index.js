@@ -1,7 +1,7 @@
-const TelegramBot = require('node-telegram-bot-api')
 
-const token = ''
-const bot = new TelegramBot(token, {polling:true})
+const tkn = require('./token')
+const TelegramBot = require('node-telegram-bot-api')
+const bot = new TelegramBot(tkn.token(), {polling:true})
 const request = require('request')
 
 bot.onText(/\/echo (.+)/, (msg, match) =>{
@@ -14,7 +14,7 @@ bot.onText(/\/echo (.+)/, (msg, match) =>{
 bot.onText(/\/movie (.+)/, (msg,match) => {
     var movie = match[1]
     const chatId = msg.chat.id
-    request('http://www.omdbapi.com/?apikey={apiKey}&t=${movie}', (error,response,body) => {
+    request(`http://www.omdbapi.com/?apikey=${tkn.apiKey}&t=${movie}`, (error,response,body) => {
 
     if(!error && response.statusCode == 200){
         bot.sendMessage(chatId, '_Looking for _' + movie + ' ... ', {parse_mode:'Markdown'})
