@@ -19,7 +19,11 @@ bot.onText(/\/movie (.+)/, (msg,match) => {
     if(!error && response.statusCode == 200){
         bot.sendMessage(chatId, '_Looking for _' + movie + ' ... ', {parse_mode:'Markdown'})
         .then((msg) => {
-            bot.sendMessage(chatId, 'Result:\n ' + body)
+            const res = JSON.parse(body)
+            bot.sendPhoto(chatId, res.Poster, {caption: 'Result: \nTitle: ' + res.Title + '\nYear: '+ res.Year +
+            '\nRated: ' + res.Rated + '\nReleased: ' + res.Released })
+        }).catch((err) =>{
+            console.log("This is the error " + err)
         })
        
     }
