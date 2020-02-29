@@ -4,6 +4,13 @@ const TelegramBot = require('node-telegram-bot-api')
 const bot = new TelegramBot(tkn.token(), {polling:true})
 const request = require('request')
 
+bot.getUpdates().then(updates => {
+    console.log(updates.message)
+}).catch(err => {
+    console.log("THis is the err " + err)
+})
+
+
 bot.onText(/\/echo (.+)/, (msg, match) =>{
     let chatId = msg.chat.id
     let echo = match[1]
